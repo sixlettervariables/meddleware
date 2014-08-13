@@ -52,8 +52,7 @@ function resolvery(basedir) {
         } else {
             fn = resolveImpl(basedir, spec.module);
             if (Array.isArray(fn)) {
-                // fallback seems like the right choice for this
-                fn = middleware(RQ.fallback, fn);
+                fn = middleware(RQ.series, fn);
             }
             
             fn = createToggleWrapper(fn, spec);
