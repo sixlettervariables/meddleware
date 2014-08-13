@@ -576,7 +576,7 @@ test('composition', function (t) {
     });
     
     t.test('arrays', function (t) {
-        var config, app, time;
+        var config, app, time, options;
 
         function req(route, cb) {
             var server;
@@ -591,13 +591,14 @@ test('composition', function (t) {
         }
 
         config = require('./fixtures/arrays');
+        options = config.arrays.module.arguments[0];
 
         app = express();
         app.use(meddle(config));
 
         app.get('/', function (req, res) {
-            t.equal(res.locals.arrayFirst, true);
-            t.equal(res.locals.arraySecond, true);
+            t.equal(res.locals.arrayFirst, options.arrayFirst);
+            t.equal(res.locals.arraySecond, options.arraySecond);
             res.send(200);
         });
 
