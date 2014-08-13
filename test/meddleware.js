@@ -599,7 +599,7 @@ test('composition', function (t) {
         app.get('/', function (req, res) {
             t.equal(res.locals.arrayFirst, options.arrayFirst);
             t.equal(res.locals.arraySecond, options.arraySecond);
-            res.send(200);
+            res.status(200).end();
         });
 
         req('/', function () {
