@@ -1,0 +1,15 @@
+{
+    "arrays": {
+        "enabled": true,
+        "priority": 25,
+        "module": {
+            "name": "./fixtures/middleware/arrays",
+            "arguments": [
+                {
+                   "item0": 1,
+                   "item1": "abc123"
+                }
+            ]
+        }
+    }
+}
