@@ -1,15 +1,15 @@
 'use strict';
 
-module.exports = function (config) {
+module.exports = function (options) {
     var middleware = [];
     
     middleware.push(function ArrayFirst(req, res, next) {
-        res.locals.arrayFirst = true;
+        res.locals.arrayFirst = options.arrayFirst;
         next();
     });
     
     middleware.push(function ArraySecond(req, res, next) {
-        if (res.locals.arrayFirst) res.locals.arraySecond = true;
+        if (res.locals.arrayFirst) res.locals.arraySecond = options.arraySecond;
         next();
     });
     
