@@ -155,8 +155,63 @@ app.use(meddle(config));
 ```
 
 #### Middleware Flow Control
-To manage groups of middleware, there is support for `parallel`, `race`, and `fallback`, which allow you to register
-middleware intended to be run using each type of flow control. Additionally, these registration types are composable.
+To manage groups of middleware, there is support for series, `parallel`, `race`, and `fallback`, which allow you to register middleware intended to be run using each type of flow control. Additionally, these registration types are composable.
+
+##### Series
+Middleware which has several serial registration steps, such as [passport.js](https://www.npmjs.org/package/passport), can be added by simply returning an array of middleware functions from the module rather than the configuration file.
+```json
+{
+    "cookieParser": {
+        "enabled": true,
+        "priority": 10,
+        "module": {
+            "name": "cookie-parser",
+            "arguments": [ "keyboard cat" ]
+        }
+    },
+    
+    "session": {
+        "enabled": true,
+        "priority": 20,
+        "module": {
+            "name": "express-session",
+            "arguments": [
+                {
+                    "secret": "keyboard cat"
+                }
+            ]
+        }
+    },
+
+    "passport": {
+        "enabled": true,
+        "priority": 30,
+        "module": {
+            "name": "./lib/passport-integration.js",
+            "arguments": []
+        }
+    }
+}
+```
+Your module can then return each middleware function in an array:
+
+```javascript
+// ./lib/passport-integration.js
+'use strict';
+
+var passport = require('passport');
+
+module.exports = function (options) {
+   var middleware = [];
+
+   middleware.push(passport.initialize());
+   middleware.push(passport.session());
+   
+   return middleware;
+};
+```
+This is equivalent to calling `app.use` on `passport.initialize()`, followed by `passport.session()`.
+
 
 ##### Parallel
 Middleware designated as `parallel` will all be executed simultaneously, continuing processing of the remaining middleware stack only when all have completed.
