@@ -6,8 +6,8 @@
             "name": "./fixtures/middleware/arrays",
             "arguments": [
                 {
-                   "item0": 1,
-                   "item1": "abc123"
+                   "arrayFirst": 1,
+                   "arraySecond": "abc123"
                 }
             ]
         }
