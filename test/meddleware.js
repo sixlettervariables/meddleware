@@ -575,5 +575,36 @@ test('composition', function (t) {
             t.end();
         });
     });
+    
+    t.test('arrays', function (t) {
+        var config, app, time;
+
+        function req(route, cb) {
+            var server;
+            server = request(app)
+                .get(route)
+                .end(function (err, res) {
+                    t.error(err, 'no response error');
+                    t.equal(typeof res, 'object', 'response is defined');
+                    t.equal(typeof res.body, 'object', 'response body is defined');
+                    cb(res.body);
+                });
+        }
+
+        config = require('./fixtures/arrays');
+
+        app = express();
+        app.use(meddle(config));
+
+        app.get('/', function (req, res) {
+            t.equal(res.locals.arrayFirst, true);
+            t.equal(res.locals.arraySecond, true);
+            res.send(200);
+        });
+
+        req('/', function () {
+            t.end();
+        });
+    });
 
 });
